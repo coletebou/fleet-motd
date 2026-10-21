@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.motd-collect</string>
+    <!-- Login dashboard collector. `env python3` resolves Homebrew's Python first
+         (PATH below): Apple's /usr/bin/python3 links LibreSSL 2.8.3, which fails
+         the TLS handshake with some APIs. Runs in the GUI session, so a Keychain
+         item (the Claude Code login) is readable; it is not over ssh. -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/env</string>
+        <string>python3</string>
+        <string>-I</string>
+        <string>__MOTD_PY__</string>
+        <string>collect</string>
+        <string>--quiet</string>
+    </array>
+    <key>StartInterval</key>
+    <integer>300</integer>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>Nice</key>
+    <integer>10</integer>
+    <key>LowPriorityIO</key>
+    <true/>
+    <key>EnvironmentVariables</key>
+    <dict>
+__ENV_PLIST__
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:__HOME__/.local/bin</string>
+    </dict>
+    <key>StandardOutPath</key>
+    <string>__HOME__/.local/state/logs/motd-collect.log</string>
+    <key>StandardErrorPath</key>
+    <string>__HOME__/.local/state/logs/motd-collect.log</string>
+</dict>
+</plist>

@@ -1,0 +1,219 @@
+{
+  "hosts": {
+    "my-laptop": {
+      "label": "laptop",
+      "banner": "default",
+      "tags": [
+        "#mac",
+        "#dev",
+        "#hub"
+      ],
+      "peers": [
+        "my-server"
+      ],
+      "repos": [
+        "~/code/my-app"
+      ],
+      "weather": true,
+      "agents": [
+        [
+          "com.example.sync",
+          "sync"
+        ]
+      ],
+      "accent": [
+        "gold_l",
+        "gold",
+        "amber"
+      ],
+      "panels": [
+        "system",
+        "services",
+        "agents",
+        "fleet",
+        "ai",
+        "edge",
+        "infra",
+        "biz",
+        "repo"
+      ]
+    },
+    "my-devbox": {
+      "label": "devbox",
+      "tags": [
+        "#linux",
+        "#dev"
+      ],
+      "ports": [
+        [
+          3000,
+          "web"
+        ]
+      ],
+      "panels": [
+        "system",
+        "docker",
+        "mrs",
+        "ec2",
+        "access"
+      ]
+    },
+    "my-server": {
+      "label": "server",
+      "banner": "default",
+      "tags": [
+        "#linux",
+        "#server"
+      ],
+      "units": [
+        [
+          "nginx",
+          "nginx",
+          "system"
+        ],
+        [
+          "myapp-web",
+          "web",
+          "system"
+        ],
+        [
+          "myapp-worker",
+          "worker",
+          "user"
+        ]
+      ],
+      "mounts": [
+        "/",
+        "/data"
+      ],
+      "ports": [
+        [
+          3000,
+          "web"
+        ]
+      ],
+      "accent": [
+        "sky",
+        "violet",
+        "rose"
+      ],
+      "panels": [
+        "system",
+        "services",
+        "agents",
+        "fleet",
+        "checks:health"
+      ]
+    }
+  },
+  "mrs": {
+    "provider": "github",
+    "repo": "octocat/hello"
+  },
+  "ec2": {
+    "region": "us-east-1",
+    "filters": {
+      "Owner": [
+        "me"
+      ]
+    }
+  },
+  "aws": {
+    "region": "us-east-1",
+    "login_hint": "aws sso login --profile dev"
+  },
+  "reach": {
+    "ssh": [
+      "my-devbox"
+    ],
+    "endpoints": [
+      [
+        "git",
+        "https://github.com/"
+      ]
+    ],
+    "hint": "connect the VPN"
+  },
+  "fleet_order": [
+    "my-laptop",
+    "my-server"
+  ],
+  "short": {
+    "my-laptop": "laptop",
+    "my-server": "server"
+  },
+  "sites": [
+    [
+      "site",
+      "https://example.com"
+    ],
+    [
+      "api",
+      "https://api.example.com/health"
+    ]
+  ],
+  "weather": {
+    "place": "Denver",
+    "lat": 39.74,
+    "lon": -104.99,
+    "tz": "America/Denver",
+    "unit": "imperial"
+  },
+  "qotd_file": "~/.config/motd/questions.txt",
+  "enable": [],
+  "disable": [],
+  "checks": [
+    {
+      "name": "site",
+      "group": "health",
+      "type": "http",
+      "url": "https://example.com/",
+      "show": "{status} · {ms}ms"
+    },
+    {
+      "name": "example.com",
+      "group": "health",
+      "type": "tls",
+      "host": "example.com"
+    },
+    {
+      "name": "backups",
+      "group": "health",
+      "type": "files",
+      "glob": "/backups/*.tar.zst",
+      "hosts": [
+        "#server"
+      ],
+      "show": "newest {newest_age_h} ago",
+      "rules": [
+        {
+          "metric": "count",
+          "op": "eq",
+          "value": 0,
+          "sev": "crit",
+          "msg": "no backups found"
+        },
+        {
+          "metric": "newest_age",
+          "op": "gt",
+          "value": 93600,
+          "sev": "crit",
+          "msg": "no backup in 26h"
+        }
+      ]
+    }
+  ],
+  "notify": {
+    "targets": [
+      {
+        "type": "ntfy",
+        "url": "https://ntfy.sh/${NTFY_TOPIC}"
+      }
+    ],
+    "min_sev": "crit",
+    "repeat_after": 21600,
+    "resolved": true
+  },
+  "gcp": {},
+  "tz": "America/Denver"
+}

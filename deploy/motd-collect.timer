@@ -1,0 +1,14 @@
+[Unit]
+Description=Refresh the login dashboard caches every 5 min
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=5min
+# Wall-clock safety floor: a daemon-reexec can wedge a monotonic-only timer at
+# NextElapse=infinity; this tick self-heals it.
+OnCalendar=*:0/10
+RandomizedDelaySec=30
+Persistent=true
+
+[Install]
+WantedBy=timers.target

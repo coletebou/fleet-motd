@@ -1,0 +1,13 @@
+[Unit]
+Description=Refresh the login dashboard caches (motd collect)
+
+[Service]
+Type=oneshot
+# User units get a minimal PATH; the collector shells out to git, ssh (hub only),
+# systemctl, tmux and, if installed, tailscale, aws and gh.
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+__ENV_SYSTEMD__
+ExecStart=/usr/bin/python3 -I __MOTD_PY__ collect --quiet
+TimeoutStartSec=120
+Nice=15
+IOSchedulingClass=idle
