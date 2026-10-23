@@ -1,5 +1,15 @@
 # fleet-motd
 
+**Continued development has moved to [Porchlight](https://github.com/coletebou/porchlight).**
+
+This repository is preserved as an archive for existing installations and its
+history. Porchlight includes the additional GCP/Azure account checks and
+Gitea/Forgejo/Bitbucket Cloud support. See the
+[migration guide](https://github.com/coletebou/porchlight/blob/master/docs/migrating-from-fleet-motd.md)
+for configuration changes and features that remain only in this archive.
+
+## Historical README
+
 A login dashboard for a handful of machines. It shows host vitals, services,
 Claude/Codex agent activity, and (if you give it keys) the state of the SaaS you
 run, plus a fleet table with one row per host and a ranked list of alerts.
